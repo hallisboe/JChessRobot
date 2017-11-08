@@ -33,7 +33,7 @@ public class Main {
         System.out.println(Value.value(BOARD));
         GUI gui = new GUI(BOARD, Possible.possible(BOARD, DATA));
         System.out.println(Value.value(BOARD));
-        for(int n = 0; n < 500000; n++) {
+        for(int n = 0; n < 10000; n++) {
             iterate();
             gui.update(BOARD, DATA, Possible.possible(BOARD, DATA));
         }
@@ -55,7 +55,7 @@ public class Main {
         toExpand.add(parent);
         long time = System.currentTimeMillis();
         int i = 0;
-        while (i < 60000) {
+        while (i < 10000) {
             while (toExpand.size() == 0) Thread.sleep(10);
             ES.execute(new Expander(toExpand.poll()));
             i++;

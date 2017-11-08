@@ -1,7 +1,5 @@
 package GUI;
 
-import ChessEngine.com.company.Main;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +24,9 @@ public class GUI extends JPanel{
     private boolean isHolding = false;
     private byte currentPiece = 0;
     private boolean canPlay = true;
+
+    private int winner = 0;
+    private int moveCount = 0;
 
     private GameController controller;
 
@@ -56,6 +57,14 @@ public class GUI extends JPanel{
         drawGrid();
         drawBoard(bc.getBoard());
 
+        if(canPlay){
+            int[][] move = bc.getMove();
+            if(move != null){
+                drawPosition(move[0][0],7-move[0][1],3);
+                drawPosition(move[1][0],7-move[1][1],3);
+            }
+        }
+
         int c = 0;
         if(isHolding && canPlay){
             drawPossibleMoves();
@@ -63,10 +72,17 @@ public class GUI extends JPanel{
                 c = 2;
             }
         }
+
         if(canPlay){
             drawPosition(curPos[0],curPos[1],c);
         }
-        //System.out.println(bc);
+
+        drawMoveCount();
+        if(controller.isGameOver){
+            drawGameOver();
+        }
+        //drawGameOver();
+
     }
 
     private void drawGrid(){
@@ -161,8 +177,8 @@ public class GUI extends JPanel{
 
     private void drawPosition(int x, int y,int c){
         int rectWidth = BOX_SIZE/3;
-        int rectHeight = BOX_SIZE/8;
-        Color color = (c == 0)? Color.YELLOW : (c == 1)? Color.ORANGE: (c == 2)? Color.green : Color.GREEN;
+        int rectHeight = BOX_SIZE/10;
+        Color color = (c == 0)? Color.YELLOW : (c == 1)? Color.ORANGE: (c == 2)? Color.green : (c == 3)? new Color(70,130,180,120) : Color.GREEN;
         g.setColor(color);
         g.fillRect(x*BOX_SIZE,y*BOX_SIZE + OFFSET,rectWidth,rectHeight);
         g.fillRect(x*BOX_SIZE,y*BOX_SIZE + BOX_SIZE - rectHeight + OFFSET,rectWidth,rectHeight);
@@ -181,22 +197,10 @@ public class GUI extends JPanel{
         int newY = curPos[1] + y;
         newX = (newX <= 0)? 0 : (newX >= 7)? 7 : newX;
         newY = (newY <= 0)? 0 : (newY >= 7)? 7 : newY;
-        updateArea(curPos[0],curPos[1]);
         curPos = new int[]{newX,newY};
-        updateArea(curPos[0],curPos[1]);
         repaint();
     }
 
-    private void updateArea(int x, int y){
-        //Updates grid
-        //g.clearRect(x*BOX_SIZE,y*BOX_SIZE + OFFSET,BOX_SIZE,BOX_SIZE);
-        //int color = (x + y + 1)%2;
-       // g.setColor(color == 0? colorA : colorB);
-        //g.fillRect(x*BOX_SIZE, y*BOX_SIZE + OFFSET,BOX_SIZE,BOX_SIZE);
-        //int pieceValue = getGridPieceValue(bc.getPieceAt(x,y));
-        //drawPiece(x,7-y,pieceValue);
-        //repaint(x*BOX_SIZE,y*BOX_SIZE + OFFSET,BOX_SIZE,BOX_SIZE);
-    }
 
     public void pickUp(){
         currentPiece = bc.getPieceAt(curPos[0],7-curPos[1]);
@@ -211,15 +215,23 @@ public class GUI extends JPanel{
 
     public void drop(){
         isHolding = false;
-        clearPossibleMoves();
         boolean hasMoved = bc.tryToMovePiece(selected[0],selected[1],curPos[0],7-curPos[1]);
         System.out.print("\nHas Moved: " + hasMoved);
         if(hasMoved){
             togglePlay();
             repaint();
-            if(!controller.isGameOver){
+            moveCount++;
+            winner = 1;
+           if(!controller.isGameOver){
                 controller.chessEngineMove();
-                togglePlay();
+                int gameStatus = bc.isGameOver();
+                if(gameStatus == 0){
+                    togglePlay();
+                }
+                else{
+                    controller.isGameOver = true;
+                    winner = gameStatus;
+                }
             }
         }
         repaint();
@@ -228,19 +240,39 @@ public class GUI extends JPanel{
     private void drawPossibleMoves(){
         int[][] possibleMoves = bc.getPB();
         for(int i = 0; i < possibleMoves.length; i++){
-            System.out.print("\nPossible move: " + possibleMoves[i][0] + "," + possibleMoves[i][1]);
+            //System.out.print("\nPossible move: " + possibleMoves[i][0] + "," + possibleMoves[i][1]);
             drawPosition(possibleMoves[i][0],7-possibleMoves[i][1],1);
-        }
-    }
-
-    private void clearPossibleMoves(){
-        int[][] possibleMoves = bc.getPB();
-        for(int i = 0; i < possibleMoves.length; i++){
-            updateArea(possibleMoves[i][0],7-possibleMoves[i][1]);
         }
     }
 
     public void togglePlay(){
         canPlay = !canPlay;
+    }
+
+    private void sleep(long millis){
+        try{
+            Thread.sleep(millis);
+        }
+        catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void drawGameOver(){
+        String victor = (winner == 1)? "White" : "Black";
+        Font font = new Font("Dialog",Font.BOLD,30);
+        g.setFont(font);
+        g.setColor(Color.BLACK);
+        g.drawString(victor + " wins!", BOX_SIZE*8 + 20,40);
+    }
+
+    private void drawMoveCount(){
+        String moves = "Move Count";
+        Font font = new Font("Dialog",Font.BOLD,25);
+        g.setFont(font);
+        g.setColor(Color.BLACK);
+        g.clearRect(BOX_SIZE*8,0,WIDTH-BOX_SIZE*8,HEIGHT);
+        g.drawString(moves,BOX_SIZE*8 + (WIDTH-BOX_SIZE*8)/2-75,100);
+        g.drawString(String.valueOf(moveCount),BOX_SIZE*8 + (WIDTH-BOX_SIZE*8)/2 - 12,125);
     }
 }

@@ -7,6 +7,7 @@ public class BoardController {
 
     private byte[][] curBoard;
     private int[][] possibleMoves;
+    private int[][] move;
     GUI gui;
 
     public BoardController(GUI gui){
@@ -18,7 +19,14 @@ public class BoardController {
         return this.curBoard;
     }
 
-    public void setBoard(byte[][] board){this.curBoard = board;}
+    public void setBoard(byte[][] board){
+        move = findMove(curBoard,board);
+        this.curBoard = board;
+    }
+
+    public int[][] getMove(){
+        return this.move;
+    }
 
     public byte getPieceAt(int x, int y){
         return curBoard[x][y];
@@ -58,7 +66,7 @@ public class BoardController {
                 int movY = moves[i][x][1] + curY;
                 if(movX >= 0 && movX <= 7 && movY >= 0 && movY <= 7){
                     int pieceAt = getPieceAt(movX,movY);
-                    System.out.print("\nPieceAt: " + pieceAt + " at " + movX + "," + movY);
+                    //System.out.print("\nPieceAt: " + pieceAt + " at " + movX + "," + movY);
                     if(pieceAt >= 1 && pieceAt < 7){
                         if(piece == 3 || piece == 4 || piece == 5){
                             break;
@@ -102,7 +110,7 @@ public class BoardController {
     }
 
     private int[][][] getPieceMoves(byte piece){
-        System.out.print("Piece: " + piece);
+        //System.out.print("Piece: " + piece);
         int pieceVal = piece;
         int[][][] moves;
         switch (pieceVal){
@@ -167,7 +175,7 @@ public class BoardController {
         boolean isKing = (curBoard[toX][toY] == 12);
         curBoard[toX][toY] = piece;
         System.out.print(toString());
-        if(isKing || isGameOver()){
+        if(isKing || isGameOver() != 0){
             gui.getController().isGameOver = true;
         }
     }
@@ -185,7 +193,7 @@ public class BoardController {
         for(int i = 0; i < possibleMoves.length; i++) {
             int x = possibleMoves[i][0];
             int y = possibleMoves[i][1];
-            System.out.print("\nX: " + x + ", Y: " + y);
+            //System.out.print("\nX: " + x + ", Y: " + y);
             if (posX == x && posY == y) {
                 return true;
             }
@@ -203,17 +211,6 @@ public class BoardController {
         return false;
     }
 
-    public byte[][] getFlippedBoard(byte[][] b){
-        byte[][] board = new byte[8][8];
-        for(int i = 0; i < b.length; i++){
-            for(int k = 0; k < b[i].length; k++){
-                byte value = (b[i][k] == 0)? 0 : (b[i][k] == 6)? 12 : (byte)((b[i][k] + 6)%12);
-                board[i][k] = value;
-            }
-        }
-        return board;
-    }
-
     public void printBoard(byte[][] board){
         String output = "";
         for(int x = 0; x < board.length; x++){
@@ -225,7 +222,7 @@ public class BoardController {
         System.out.print(output);
     }
 
-    private boolean isGameOver(){
+    public int isGameOver(){
         boolean whiteKing = false;
         boolean blackKing = false;
         for(int i = 0; i < curBoard.length; i++){
@@ -234,6 +231,21 @@ public class BoardController {
                 else if(curBoard[i][k] == 12){blackKing = true;}
             }
         }
-        return (!whiteKing || !blackKing);
+        return (whiteKing && blackKing)? 0 : !blackKing? 1 : -1;
+    }
+
+    private int[][] findMove(byte[][] b1,byte[][] b2){
+        int[][] move = new int[2][2];
+        int cell = 0;
+        for(int i = 0; i < b1.length; i++){
+            for(int k = 0; k < b1[i].length; k++){
+                if(b1[i][k] != b2[i][k]){
+                    move[cell] = new int[]{i,k};
+                    cell++;
+                    if(cell == 2){return move;}
+                }
+            }
+        }
+        return move;
     }
 }
