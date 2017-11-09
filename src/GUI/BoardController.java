@@ -93,7 +93,7 @@ public class BoardController {
                         }
                     }
 
-                    if(piece == 6 && !gui.kingHasMoved){
+                    if(piece == 6 && !gui.kingHasMoved && !gui.isInCheck){
                         //Check for castling
                         if(!gui.leftRookHasMoved){
                             //Check space between
