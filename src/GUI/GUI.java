@@ -21,7 +21,7 @@ public class GUI extends JPanel{
 
     private int[] curPos = {0,7};
     private int[] selected;
-    public int[] kingPos;
+    public int[] kingPos = {0,4};
     private boolean isHolding = false;
     private byte currentPiece = 0;
     private boolean canPlay = true;
@@ -247,22 +247,12 @@ public class GUI extends JPanel{
     private void drawPossibleMoves(){
         int[][] possibleMoves = bc.getPB();
         for(int i = 0; i < possibleMoves.length; i++){
-            //System.out.print("\nPossible move: " + possibleMoves[i][0] + "," + possibleMoves[i][1]);
             drawPosition(possibleMoves[i][0],7-possibleMoves[i][1],1);
         }
     }
 
     public void togglePlay(){
         canPlay = !canPlay;
-    }
-
-    private void sleep(long millis){
-        try{
-            Thread.sleep(millis);
-        }
-        catch(InterruptedException e){
-            e.printStackTrace();
-        }
     }
 
     private void drawGameOver(){

@@ -1,5 +1,7 @@
 package GUI;
 
+import ChessEngine.com.company.board.Possible;
+
 import javax.swing.*;
 import java.util.ArrayList;
 
@@ -77,10 +79,10 @@ public class BoardController {
                     }
                     if(piece == 1){ //Pawn exceptions
                         int diagonalY = curY + 1;
-                        if(checkPawnDiagonals(curX - 1, diagonalY)){
+                        if(checkPawnDiagonals(curX - 1, diagonalY,true)){
                             position.add(new int[]{curX - 1,diagonalY});
                         }
-                        if(checkPawnDiagonals(curX + 1, diagonalY)){
+                        if(checkPawnDiagonals(curX + 1, diagonalY,true)){
                             position.add(new int[]{curX + 1,diagonalY});
                         }
                         if(pieceAt >= 7){
@@ -121,7 +123,7 @@ public class BoardController {
                 if (movX >= 0 && movX <= 7 && movY >= 0 && movY <= 7) {
                     int pieceAt = getPieceAt(movX, movY);
                     //System.out.print("\nPieceAt: " + pieceAt + " at " + movX + "," + movY);
-                    if (pieceAt >= 7 && pieceAt < 12) {
+                    if (pieceAt >= 7 && pieceAt <= 12) {
                         if (piece == 9 || piece == 10 || piece == 11) {
                             break;
                         } else {
@@ -129,10 +131,10 @@ public class BoardController {
                         }
                     } else if (piece == 7) { //Pawn exceptions
                         int diagonalY = curY - 1;
-                        if (checkPawnDiagonals(curX - 1, diagonalY)) {
+                        if (checkPawnDiagonals(curX - 1, diagonalY,false)) {
                             position.add(new int[]{curX - 1, diagonalY});
                         }
-                        if (checkPawnDiagonals(curX + 1, diagonalY)) {
+                        if (checkPawnDiagonals(curX + 1, diagonalY,false)) {
                             position.add(new int[]{curX + 1, diagonalY});
                         }
                         if (pieceAt < 7) {
@@ -260,10 +262,14 @@ public class BoardController {
         return false;
     }
 
-    private boolean checkPawnDiagonals(int diagonalX, int diagonalY){
+    private boolean checkPawnDiagonals(int diagonalX, int diagonalY,boolean isWhite){
         if(diagonalY >= 0 && diagonalY <= 7 && diagonalX >= 0 && diagonalX <= 7){
             int enemyPiece = getPieceAt(diagonalX,diagonalY);
-            if(enemyPiece >= 7){
+            if(isWhite && enemyPiece >= 7){
+                return true;
+            }
+            else if(!isWhite && enemyPiece <= 6 && enemyPiece > 0)
+            {
                 return true;
             }
         }
@@ -309,17 +315,29 @@ public class BoardController {
     }
 
     public void checkForCheck(){
-        byte piece = getPieceAt(move[1][0],move[1][1]);
-        if(piece == 0){piece = getPieceAt(move[0][0],move[0][1]);}
-        int[][] posMoves = getAvailableMovesBlack(piece,move[1][0],move[1][1]);
-        for(int i = 0; i < posMoves.length; i++){
-            System.out.print("\nCan attack: " + getPieceAt(posMoves[i][0],posMoves[i][1]));
-            if(getPieceAt(posMoves[i][0],posMoves[i][1]) == 6){
-                gui.kingPos = new int[]{posMoves[i][0],posMoves[i][1]};
+        //Finds the king position
+        if(getPieceAt(gui.kingPos[0],gui.kingPos[1]) != 6){
+            boolean kingFound = false;
+            for(int i = 7; i >= 0; i--){
+                for(int k = 0; k < 8; k++){
+                    if(curBoard[i][k] == 6){
+                        gui.kingPos = new int[]{i,k};
+                        kingFound = true;
+                        break;
+                    }
+                    if(kingFound){break;}
+                }
+            }
+        }
+
+        ArrayList<int[]> posMoves = Possible.possible(curBoard,new boolean[]{false});
+        for(int i = 0; i < posMoves.size(); i++){
+            int posMoveX = posMoves.get(i)[2];
+            int posMoveY = posMoves.get(i)[3];
+            if(posMoveX == gui.kingPos[0] && posMoveY == gui.kingPos[1]){
                 gui.isInCheck = true;
                 return;
             }
-
         }
         gui.isInCheck = false;
     }

@@ -16,7 +16,6 @@ public class GameController extends JFrame{
     private DataOutputStream out;
     private GUI gui;
     private Main chessEngine;
-    private boolean sendReversed = true;
     public boolean isGameOver = false;
 
     public GameController(){
