@@ -18,7 +18,7 @@ public class Value {
                 v += VALUE[position[i][j]];
             }
         }
-        v += development(position);
+        //v += development(position);
         return v;
     }
 
