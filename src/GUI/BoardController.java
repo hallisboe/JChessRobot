@@ -93,6 +93,36 @@ public class BoardController {
                         }
                     }
 
+                    if(piece == 6 && !gui.kingHasMoved){
+                        //Check for castling
+                        if(!gui.leftRookHasMoved){
+                            //Check space between
+                            boolean noSpace = true;
+                            for(int k = 0; k < 3; k++){
+                                if(getPieceAt(1+k,0) != 0){
+                                    noSpace = false;
+                                    break;
+                                }
+                            }
+                            if(noSpace){
+                                position.add(new int[]{0,0});
+                            }
+                        }
+                        if(!gui.rightRookHasMoved){
+                            //Check space between
+                            boolean noSpace = true;
+                            for(int k = 0; k < 2; k++){
+                                if(getPieceAt(5+k,0) != 0){
+                                    noSpace = false;
+                                    break;
+                                }
+                            }
+                            if(noSpace){
+                                position.add(new int[]{7,0});
+                            }
+                        }
+                    }
+
                     position.add(new int[]{movX,movY});
                     if(pieceAt >= 7){
                         if(piece == 3 || piece == 4 || piece == 5){
@@ -108,58 +138,6 @@ public class BoardController {
         int[][] result = new int[position.size()][2];
         for(int i = 0; i < result.length; i++){
            result[i] = position.get(i);
-        }
-        return result;
-    }
-
-    private int[][] getAvailableMovesBlack(byte piece,int curX,int curY){
-        ArrayList<int[]> position = new ArrayList<> ();
-        int[][][] moves = getPieceMoves(piece);
-
-        for(int i = 0; i < moves.length; i++) {
-            for (int x = 0; x < moves[i].length; x++) {
-                int movX = moves[i][x][0] + curX;
-                int movY = moves[i][x][1] + curY;
-                if (movX >= 0 && movX <= 7 && movY >= 0 && movY <= 7) {
-                    int pieceAt = getPieceAt(movX, movY);
-                    //System.out.print("\nPieceAt: " + pieceAt + " at " + movX + "," + movY);
-                    if (pieceAt >= 7 && pieceAt <= 12) {
-                        if (piece == 9 || piece == 10 || piece == 11) {
-                            break;
-                        } else {
-                            continue;
-                        }
-                    } else if (piece == 7) { //Pawn exceptions
-                        int diagonalY = curY - 1;
-                        if (checkPawnDiagonals(curX - 1, diagonalY,false)) {
-                            position.add(new int[]{curX - 1, diagonalY});
-                        }
-                        if (checkPawnDiagonals(curX + 1, diagonalY,false)) {
-                            position.add(new int[]{curX + 1, diagonalY});
-                        }
-                        if (pieceAt < 7) {
-                            continue;
-                        }
-                        if (curY != 6 && curY - 2 == movY) {
-                            continue;
-                        }
-                    }
-
-                    position.add(new int[]{movX, movY});
-                    if (pieceAt > 0 && pieceAt < 7) {
-                        if (piece == 9 || piece == 10 || piece == 11) {
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        position.add(new int[]{curX,curY});
-
-        int[][] result = new int[position.size()][2];
-        for(int i = 0; i < result.length; i++){
-            result[i] = position.get(i);
         }
         return result;
     }
@@ -233,10 +211,22 @@ public class BoardController {
                 piece = 2;
             }
         }
-        boolean isKing = (curBoard[toX][toY] == 12);
+        else if(piece == 6){ //Handles castling
+            if(toX == 0 && toY == 0){
+                curBoard[2][0] = 6;
+                curBoard[3][0] = 4;
+                piece = 0;
+            }
+            else if(toX == 7 && toY == 0){
+                curBoard[6][0] = 6;
+                curBoard[5][0] = 4;
+                piece = 0;
+            }
+        }
+
         curBoard[toX][toY] = piece;
         System.out.print(toString());
-        if(isKing || isGameOver() != 0){
+        if(isGameOver() != 0){
             gui.getController().isGameOver = true;
         }
     }
