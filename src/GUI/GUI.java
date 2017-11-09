@@ -21,9 +21,11 @@ public class GUI extends JPanel{
 
     private int[] curPos = {0,7};
     private int[] selected;
+    public int[] kingPos;
     private boolean isHolding = false;
     private byte currentPiece = 0;
     private boolean canPlay = true;
+    public boolean isInCheck = false;
 
     private int winner = 0;
     private int moveCount = 0;
@@ -56,6 +58,10 @@ public class GUI extends JPanel{
         this.g = g;
         drawGrid();
         drawBoard(bc.getBoard());
+
+        if(isInCheck){
+            drawPosition(kingPos[0],7-kingPos[1],4);
+        }
 
         if(canPlay){
             int[][] move = bc.getMove();
@@ -178,7 +184,7 @@ public class GUI extends JPanel{
     private void drawPosition(int x, int y,int c){
         int rectWidth = BOX_SIZE/3;
         int rectHeight = BOX_SIZE/10;
-        Color color = (c == 0)? Color.YELLOW : (c == 1)? Color.ORANGE: (c == 2)? Color.green : (c == 3)? new Color(70,130,180,120) : Color.GREEN;
+        Color color = (c == 0)? Color.YELLOW : (c == 1)? Color.ORANGE: (c == 2)? Color.green : (c == 3)? new Color(70,130,180,120) : (c == 4)? new Color(128,0,0) : Color.GREEN;
         g.setColor(color);
         g.fillRect(x*BOX_SIZE,y*BOX_SIZE + OFFSET,rectWidth,rectHeight);
         g.fillRect(x*BOX_SIZE,y*BOX_SIZE + BOX_SIZE - rectHeight + OFFSET,rectWidth,rectHeight);
@@ -224,6 +230,7 @@ public class GUI extends JPanel{
             winner = 1;
            if(!controller.isGameOver){
                 controller.chessEngineMove();
+                bc.checkForCheck();
                 int gameStatus = bc.isGameOver();
                 if(gameStatus == 0){
                     togglePlay();

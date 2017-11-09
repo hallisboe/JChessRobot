@@ -90,6 +90,7 @@ public class BoardController {
                             continue;
                         }
                     }
+
                     position.add(new int[]{movX,movY});
                     if(pieceAt >= 7){
                         if(piece == 3 || piece == 4 || piece == 5){
@@ -109,29 +110,87 @@ public class BoardController {
         return result;
     }
 
+    private int[][] getAvailableMovesBlack(byte piece,int curX,int curY){
+        ArrayList<int[]> position = new ArrayList<> ();
+        int[][][] moves = getPieceMoves(piece);
+
+        for(int i = 0; i < moves.length; i++) {
+            for (int x = 0; x < moves[i].length; x++) {
+                int movX = moves[i][x][0] + curX;
+                int movY = moves[i][x][1] + curY;
+                if (movX >= 0 && movX <= 7 && movY >= 0 && movY <= 7) {
+                    int pieceAt = getPieceAt(movX, movY);
+                    //System.out.print("\nPieceAt: " + pieceAt + " at " + movX + "," + movY);
+                    if (pieceAt >= 7 && pieceAt < 12) {
+                        if (piece == 9 || piece == 10 || piece == 11) {
+                            break;
+                        } else {
+                            continue;
+                        }
+                    } else if (piece == 7) { //Pawn exceptions
+                        int diagonalY = curY - 1;
+                        if (checkPawnDiagonals(curX - 1, diagonalY)) {
+                            position.add(new int[]{curX - 1, diagonalY});
+                        }
+                        if (checkPawnDiagonals(curX + 1, diagonalY)) {
+                            position.add(new int[]{curX + 1, diagonalY});
+                        }
+                        if (pieceAt < 7) {
+                            continue;
+                        }
+                        if (curY != 6 && curY - 2 == movY) {
+                            continue;
+                        }
+                    }
+
+                    position.add(new int[]{movX, movY});
+                    if (pieceAt > 0 && pieceAt < 7) {
+                        if (piece == 9 || piece == 10 || piece == 11) {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        position.add(new int[]{curX,curY});
+
+        int[][] result = new int[position.size()][2];
+        for(int i = 0; i < result.length; i++){
+            result[i] = position.get(i);
+        }
+        return result;
+    }
+
     private int[][][] getPieceMoves(byte piece){
-        //System.out.print("Piece: " + piece);
+        System.out.print("\nPiece: " + piece);
         int pieceVal = piece;
         int[][][] moves;
         switch (pieceVal){
             case 1:
+            case 7:
                 moves = new int[1][PieceData.PAWN.length][2];
                 moves[0] = PieceData.PAWN;
                 break;
             case 2:
+            case 8:
                 moves = new int[1][PieceData.KNIGHT.length][2];
                 moves[0] = PieceData.KNIGHT;
                 break;
             case 3:
+            case 9:
                 moves = extendPossibleMoves(PieceData.BISHOP);
                 break;
             case 4:
-                moves =  extendPossibleMoves(PieceData.ROOK);
+            case 10:
+                moves = extendPossibleMoves(PieceData.ROOK);
                 break;
             case 5:
-                moves =  extendPossibleMoves(PieceData.QUEEN);
+            case 11:
+                moves = extendPossibleMoves(PieceData.QUEEN);
                 break;
             case 6:
+            case 12:
                 moves = new int[1][PieceData.KING.length][2];
                 moves[0] = PieceData.KING;
                 break;
@@ -247,5 +306,21 @@ public class BoardController {
             }
         }
         return move;
+    }
+
+    public void checkForCheck(){
+        byte piece = getPieceAt(move[1][0],move[1][1]);
+        if(piece == 0){piece = getPieceAt(move[0][0],move[0][1]);}
+        int[][] posMoves = getAvailableMovesBlack(piece,move[1][0],move[1][1]);
+        for(int i = 0; i < posMoves.length; i++){
+            System.out.print("\nCan attack: " + getPieceAt(posMoves[i][0],posMoves[i][1]));
+            if(getPieceAt(posMoves[i][0],posMoves[i][1]) == 6){
+                gui.kingPos = new int[]{posMoves[i][0],posMoves[i][1]};
+                gui.isInCheck = true;
+                return;
+            }
+
+        }
+        gui.isInCheck = false;
     }
 }
