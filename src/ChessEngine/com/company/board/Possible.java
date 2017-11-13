@@ -5,7 +5,11 @@ import static ChessEngine.com.company.lookup.Pieces.*;
 
 public class Possible {
 
-    static void white(byte[][] board, int[] move, ArrayList<int[]> moves, int x, int y, int X, int Y) {
+    /*
+    Function: w
+    Finds possible moves in line for white.
+     */
+    static void w(byte[][] board, int[] move, ArrayList<int[]> moves, int x, int y, int X, int Y) {
         for(int i = 1; i < Math.min(X, Y) + 1; i++) {
             if (board[x + move[0] * i][y + move[1] * i] == 0) {
                 moves.add(new int[]{x, y, x + move[0] * i, y + move[1] * i});
@@ -17,7 +21,7 @@ public class Possible {
         }
     }
 
-    static void black(byte[][] board, int[] move, ArrayList<int[]> moves, int x, int y, int X, int Y) {
+    static void b(byte[][] board, int[] move, ArrayList<int[]> moves, int x, int y, int X, int Y) {
         for(int i = 1; i < Math.min(X, Y) + 1; i++) {
             if (board[x + move[0] * i][y + move[1] * i] == 0) {
                 moves.add(new int[]{x, y, x + move[0] * i, y + move[1] * i});
@@ -49,16 +53,16 @@ public class Possible {
                         break;
                     case WHITE_ROOK:
                         for(int[] move : ROOK) {
-                            int X = move[0] == 0 ? 10 : move[0] == 1 ? (board.length - 1) - x : x;
-                            int Y = move[1] == 0 ? 10 : move[1] == 1 ? (board.length - 1) - y : y;
-                            white(board, move, moves, x, y, X, Y);
+                            int X = move[0] == 0 ? 9 : move[0] == 1 ? (board.length - 1) - x : x;
+                            int Y = move[1] == 0 ? 9 : move[1] == 1 ? (board.length - 1) - y : y;
+                            w(board, move, moves, x, y, X, Y);
                         }
                         break;
                     case WHITE_BISHOP:
                         for(int[] move : BISHOP) {
                             int X = move[0] == 1 ? (board.length - 1) - x : x;
                             int Y = move[1] == 1 ? (board.length - 1) - y : y;
-                            white(board, move, moves, x, y, X, Y);
+                            w(board, move, moves, x, y, X, Y);
                         }
                         break;
                     case WHITE_KNIGHT:
@@ -80,12 +84,14 @@ public class Possible {
                                 }
                             }
                         }
+                        if(data[1] && x == 4 && y == 0 && board[x + 1][y] == 0 && board[x + 2][y] == 0 && board[x + 1][y] == WHITE_ROOK) moves.add(new int[]{x, y, x + 2, y});
+                        if(data[2] && x == 4 && y == 0 && board[x - 1][y] == 0 && board[x - 2][y] == 0 && board[x - 3][y] == 0 && board[x - 4][y] == WHITE_ROOK) moves.add(new int[]{x, y, x - 2, y});
                         break;
                     case WHITE_QUEEN:
                         for(int[] move : QUEEN) {
-                            int X = move[0] == 0 ? 10 : move[0] == 1 ? (board.length - 1) - x : x;
-                            int Y = move[1] == 0 ? 10 : move[1] == 1 ? (board.length - 1) - y : y;
-                            white(board, move, moves, x, y, X, Y);
+                            int X = move[0] == 0 ? 9 : move[0] == 1 ? (board.length - 1) - x : x;
+                            int Y = move[1] == 0 ? 9 : move[1] == 1 ? (board.length - 1) - y : y;
+                            w(board, move, moves, x, y, X, Y);
                         }
                         break;
 
@@ -108,16 +114,16 @@ public class Possible {
                         break;
                     case BLACK_ROOK:
                         for(int[] move : ROOK) {
-                            int X = move[0] == 0 ? 10 : move[0] == 1 ? (board.length - 1) - x : x;
-                            int Y = move[1] == 0 ? 10 : move[1] == 1 ? (board.length - 1) - y : y;
-                            black(board, move, moves, x, y, X, Y);
+                            int X = move[0] == 0 ? 9 : move[0] == 1 ? (board.length - 1) - x : x;
+                            int Y = move[1] == 0 ? 9 : move[1] == 1 ? (board.length - 1) - y : y;
+                            b(board, move, moves, x, y, X, Y);
                         }
                         break;
                     case BLACK_BISHOP:
                         for(int[] move : BISHOP) {
                             int X = move[0] == 1 ? (board.length - 1) - x : x;
                             int Y = move[1] == 1 ? (board.length - 1) - y : y;
-                            black(board, move, moves, x, y, X, Y);
+                            b(board, move, moves, x, y, X, Y);
                         }
                         break;
                     case BLACK_KNIGHT:
@@ -137,12 +143,14 @@ public class Possible {
                                 }
                             }
                         }
+                        if(data[3] && x == 4 && y == 7 && board[x + 1][y] == 0 && board[x + 2][y] == 0 && board[x + 1][y] == BLACK_ROOK) moves.add(new int[]{x, y, x + 2, y});
+                        if(data[4] && x == 4 && y == 7 && board[x - 1][y] == 0 && board[x - 2][y] == 0 && board[x - 3][y] == 0 && board[x - 4][y] == BLACK_ROOK) moves.add(new int[]{x, y, x - 2, y});
                         break;
                     case BLACK_QUEEN:
                         for(int[] move : QUEEN) {
-                            int X = move[0] == 0 ? 10 : move[0] == 1 ? (board.length - 1) - x : x;
-                            int Y = move[1] == 0 ? 10 : move[1] == 1 ? (board.length - 1) - y : y;
-                            black(board, move, moves, x, y, X, Y);
+                            int X = move[0] == 0 ? 9 : move[0] == 1 ? (board.length - 1) - x : x;
+                            int Y = move[1] == 0 ? 9 : move[1] == 1 ? (board.length - 1) - y : y;
+                            b(board, move, moves, x, y, X, Y);
                         }
                         break;
                 }

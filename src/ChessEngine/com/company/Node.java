@@ -24,12 +24,13 @@ public class Node{
     }
 
     int value() {
-        return Value.value(position);
+        int v = Value.value(position);
+        return v;
     }
 
     void expand(int loop) {
         unchanged = false;
-        if(Math.abs(Value.value(position)) < 600000) {
+        if(Math.abs(Value.value(position)) < 50000) {
             ArrayList<Node> c = new ArrayList();
             for (int[] move : Possible.possible(position, data)) {
                 byte[][] newPosition = new byte[8][8];
@@ -50,6 +51,35 @@ public class Node{
 
                 boolean[] newData = Arrays.copyOf(data, data.length);
                 newData[0] = !newData[0];
+
+                if(data[0] && position[move[0]][move[1]] == WHITE_KING) {
+                    if(move[2] - move[0] == 2) {
+                        newData[1] = false;
+                        newData[2] = false;
+                        newPosition[7][0] = 0;
+                        newPosition[4][0] = WHITE_ROOK;
+                    }
+                    if(move[2] - move[0] == -2) {
+                        newData[1] = false;
+                        newData[2] = false;
+                        newPosition[0][0] = 0;
+                        newPosition[3][0] = WHITE_ROOK;
+                    }
+                } else if(position[move[0]][move[1]] == BLACK_KING) {
+                    if(move[2] - move[0] == 2) {
+                        newData[3] = false;
+                        newData[4] = false;
+                        newPosition[7][7] = 0;
+                        newPosition[4][7] = BLACK_ROOK;
+                    }
+                    if(move[2] - move[0] == -2) {
+                        newData[3] = false;
+                        newData[4] = false;
+                        newPosition[0][7] = 0;
+                        newPosition[3][7] = BLACK_ROOK;
+                    }
+                }
+
                 Node child = new Node(newPosition, newData);
                 if (expand && loop > 0) child.expand(loop - 1);
                 c.add(child);
@@ -60,7 +90,6 @@ public class Node{
 
 
     }
-
     public String toString() {
         return "Node (value = " + value() + ")";
     }

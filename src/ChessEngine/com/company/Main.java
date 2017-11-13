@@ -16,7 +16,7 @@ public class Main {
 
     static Queue<Node> toExpand;
     static byte[][] BOARD;
-    static boolean[] DATA = {true};
+    static boolean[] DATA = {true, true, true, true, true};
 
     static char[] chars = new char[] { '/', '-', '\\', '/', '-', '\\'};
 
@@ -29,10 +29,9 @@ public class Main {
         System.out.println("------------------------------------------------------------");
         System.out.println("  JChess v0.3");
         System.out.println("------------------------------------------------------------");
-        BOARD = load().get(1);
+        BOARD = load().get(0);
         System.out.println(Value.value(BOARD));
         GUI gui = new GUI(BOARD, Possible.possible(BOARD, DATA));
-        System.out.println(Value.value(BOARD));
         for(int n = 0; n < 10000; n++) {
             iterate();
             gui.update(BOARD, DATA, Possible.possible(BOARD, DATA));
@@ -55,7 +54,7 @@ public class Main {
         toExpand.add(parent);
         long time = System.currentTimeMillis();
         int i = 0;
-        while (i < 10000) {
+        while (i < 50000) {
             while (toExpand.size() == 0) Thread.sleep(10);
             ES.execute(new Expander(toExpand.poll()));
             i++;
