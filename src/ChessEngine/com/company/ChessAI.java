@@ -64,8 +64,7 @@ public class ChessAI {
         Collections.shuffle(temp);
         System.out.println(temp);
         parent.children = temp.toArray(new Node[temp.size()]);
-        //Arrays.sort(parent.children, (a, b) -> DATA[0] ? find(b) - find(a) : -(find(b) - find(a)));
-        Arrays.sort(parent.children, new NodeComparator());
+        Arrays.sort(parent.children, (a, b) -> DATA[0] ? find(b) - find(a) : -(find(b) - find(a)));
         String output = "";
         for (int k = 0; k < 3; k++) {
             Node node = parent.children[k];
@@ -81,12 +80,6 @@ public class ChessAI {
 
         BOARD = parent.children[0].position;
         DATA = parent.children[0].data;
-    }
-
-    private static class NodeComparator implements Comparator<Node>{
-        public int compare(Node a, Node b){
-            return DATA[0]? find(b) - find(a) : -(find(b) - find(a));
-        }
     }
 
 }
