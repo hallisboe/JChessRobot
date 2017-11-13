@@ -21,7 +21,7 @@ public class GameController extends JFrame{
     public boolean isGameOver = false;
 
     public GameController(){
-        int d = Integer.parseInt(showInputDialog("Vanskelighet (1-25)")) * 1000;
+        int d = Integer.parseInt(showInputDialog("Vanskelighet (1-25(++)")) * 1000;
         gui = new GUI(this);
         this.add(gui);
         this.setSize(gui.getWidth(),gui.getHeight() + 27);
