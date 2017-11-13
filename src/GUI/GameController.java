@@ -31,8 +31,10 @@ public class GameController extends JFrame{
         this.setVisible(true);
         this.addKeyListener(new KeyUsage());
         chessEngine = new ChessAI(d);
-        //setup();
-        //update();
+        if("ja".equals(showInputDialog("bruk bluethooth? (ja/nei)"))) {
+            setup();
+            update();
+        }
     }
 
     public static void main(String[] args){
