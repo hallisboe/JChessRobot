@@ -1,5 +1,7 @@
 package GUI;
 
+import ChessEngine.com.company.lookup.Pieces;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -142,40 +144,40 @@ public class GUI extends JPanel{
 
     private byte getGridPieceValue(byte index){
         switch (index){
-            case PieceData.WHITE_PAWN:
+            case Pieces.WHITE_PAWN:
                 index = 5;
                 break;
-            case PieceData.WHITE_ROOK:
+            case Pieces.WHITE_ROOK:
                 index = 4;
                 break;
-            case PieceData.WHITE_KNIGHT:
+            case Pieces.WHITE_KNIGHT:
                 index = 3;
                 break;
-            case PieceData.WHITE_BISHOP:
+            case Pieces.WHITE_BISHOP:
                 index = 2;
                 break;
-            case PieceData.WHITE_QUEEN:
+            case Pieces.WHITE_QUEEN:
                 index = 1;
                 break;
-            case PieceData.WHITE_KING:
+            case Pieces.WHITE_KING:
                 index = 0;
                 break;
-            case PieceData.BLACK_PAWN:
+            case Pieces.BLACK_PAWN:
                 index = 11;
                 break;
-            case PieceData.BLACK_ROOK:
+            case Pieces.BLACK_ROOK:
                 index = 10;
                 break;
-            case PieceData.BLACK_KNIGHT:
+            case Pieces.BLACK_KNIGHT:
                 index = 9;
                 break;
-            case PieceData.BLACK_BISHOP:
+            case Pieces.BLACK_BISHOP:
                 index = 8;
                 break;
-            case PieceData.BLACK_QUEEN:
+            case Pieces.BLACK_QUEEN:
                 index = 7;
                 break;
-            case PieceData.BLACK_KING:
+            case Pieces.BLACK_KING:
                 index = 6;
                 break;
             default:

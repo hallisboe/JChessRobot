@@ -15,6 +15,7 @@ public class Pieces {
     public static final byte BLACK_QUEEN = 11;
     public static final byte BLACK_KING = 12;
 
+    public static final int[][] PAWN = {{0,1},{0,2}};
     public static final int[][] KNIGHT = {{2, 1}, {2, -1}, {-2, 1}, {-2, -1}, {1, 2}, {-1, 2}, {1, -2}, {-1, -2}};
     public static final int[][] BISHOP = {{1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
     public static final int[][] ROOK = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};

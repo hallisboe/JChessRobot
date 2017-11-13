@@ -1,6 +1,7 @@
 package GUI;
 
 import ChessEngine.com.company.board.Possible;
+import ChessEngine.com.company.lookup.Pieces;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -149,30 +150,30 @@ public class BoardController {
         switch (pieceVal){
             case 1:
             case 7:
-                moves = new int[1][PieceData.PAWN.length][2];
-                moves[0] = PieceData.PAWN;
+                moves = new int[1][Pieces.PAWN.length][2];
+                moves[0] = Pieces.PAWN;
                 break;
             case 2:
             case 8:
-                moves = new int[1][PieceData.KNIGHT.length][2];
-                moves[0] = PieceData.KNIGHT;
+                moves = new int[1][Pieces.KNIGHT.length][2];
+                moves[0] = Pieces.KNIGHT;
                 break;
             case 3:
             case 9:
-                moves = extendPossibleMoves(PieceData.BISHOP);
+                moves = extendPossibleMoves(Pieces.BISHOP);
                 break;
             case 4:
             case 10:
-                moves = extendPossibleMoves(PieceData.ROOK);
+                moves = extendPossibleMoves(Pieces.ROOK);
                 break;
             case 5:
             case 11:
-                moves = extendPossibleMoves(PieceData.QUEEN);
+                moves = extendPossibleMoves(Pieces.QUEEN);
                 break;
             case 6:
             case 12:
-                moves = new int[1][PieceData.KING.length][2];
-                moves[0] = PieceData.KING;
+                moves = new int[1][Pieces.KING.length][2];
+                moves[0] = Pieces.KING;
                 break;
             default:
                 moves = null;
