@@ -10,6 +10,8 @@ import java.net.Socket;
 
 import ChessEngine.com.company.ChessAI;
 
+import static javax.swing.JOptionPane.showInputDialog;
+
 public class GameController extends JFrame{
 
     private DataInputStream in;
@@ -19,6 +21,7 @@ public class GameController extends JFrame{
     public boolean isGameOver = false;
 
     public GameController(){
+        int d = Integer.parseInt(showInputDialog("Vanskelighet (1-25)")) * 1000;
         gui = new GUI(this);
         this.add(gui);
         this.setSize(gui.getWidth(),gui.getHeight() + 27);
@@ -27,7 +30,7 @@ public class GameController extends JFrame{
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.addKeyListener(new KeyUsage());
-        chessEngine = new ChessAI();
+        chessEngine = new ChessAI(d);
         //setup();
         //update();
     }
@@ -51,11 +54,19 @@ public class GameController extends JFrame{
         while(true){
             try{
                 String input = in.readUTF();
-                System.out.println("\n|" + input + "|");
-                if(input.equals("Up")){System.out.print("Moving UP"); gui.moveCurPos(0,-1);}
-                else if(input.equals("Down")){System.out.print("Moving DOWN");gui.moveCurPos(0,1);}
-                else if(input.equals("Left")){gui.moveCurPos(-1,0);}
-                else if(input.equals("Right")){gui.moveCurPos(1,0);}
+                //System.out.println("\n|" + input + "|");
+                if(input.equals("Up")){
+                    //System.out.print("Moving UP");
+                    gui.moveCurPos(0,-1);}
+                else if(input.equals("Down")){
+                    //System.out.print("Moving DOWN");
+                    gui.moveCurPos(0,1);
+                }
+                else if(input.equals("Left")){
+                    gui.moveCurPos(-1,0);}
+                else if(input.equals("Right")){
+                    gui.moveCurPos(1,0);
+                }
                 else if(input.equals("Enter")){
                     if(!gui.isHolding()){
                         gui.pickUp();
@@ -78,7 +89,7 @@ public class GameController extends JFrame{
         chessEngine.setBoard(gui.bc.getBoard(),!gui.leftRookHasMoved,!gui.rightRookHasMoved);
         try{
             chessEngine.iterate();
-            System.out.print("\nEngine iterated");
+            //System.out.print("\nEngine iterated");
         }
         catch(InterruptedException e){
             e.printStackTrace();
@@ -103,7 +114,7 @@ public class GameController extends JFrame{
                 gui.moveCurPos(0,-1);
             }
             else if(e.getKeyChar() == 's'){
-                System.out.print("Down");
+                //System.out.print("Down");
                 gui.moveCurPos(0,1);
             }
             else if(e.getKeyChar() == 'a'){

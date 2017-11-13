@@ -16,6 +16,12 @@ public class ChessAI {
 
     static Node parent;
 
+    static int n;
+
+    public ChessAI(int n) {
+        this.n = n;
+    }
+
     public byte[][] getBoard(){
         return this.BOARD;
     }
@@ -34,7 +40,7 @@ public class ChessAI {
         toExpand.add(parent);
         long time = System.currentTimeMillis();
         int i = 0;
-        while (i < 15000) {
+        while (i < n) {
             while (toExpand.size() == 0) Thread.sleep(10);
             ES.execute(new Expander(toExpand.poll()));
             i++;

@@ -227,7 +227,7 @@ public class GUI extends JPanel{
     public void drop(){
         isHolding = false;
         boolean hasMoved = bc.tryToMovePiece(selected[0],selected[1],curPos[0],7-curPos[1]);
-        System.out.print("\nHas Moved: " + hasMoved);
+        //System.out.print("\nHas Moved: " + hasMoved);
         if(hasMoved){
             togglePlay();
             repaint();
@@ -251,18 +251,18 @@ public class GUI extends JPanel{
     }
 
     private void castlingControl(){
-        System.out.print("\nSelected: " + selected[0] + "," + selected[1] + ", CurrentPiece: " + currentPiece);
+        //System.out.print("\nSelected: " + selected[0] + "," + selected[1] + ", CurrentPiece: " + currentPiece);
         if(currentPiece == 4 && selected[0] == 0 && selected[1] == 0 && !leftRookHasMoved){
             leftRookHasMoved = true;
-            System.out.print("\nLeft rook can no longer preform castling");
+            //System.out.print("\nLeft rook can no longer preform castling");
         }
         else if(currentPiece == 4 && selected[0] == 7 && selected[1] == 0 && !rightRookHasMoved){
             rightRookHasMoved = true;
-            System.out.print("\nRight rook can no longer preform castling");
+            //System.out.print("\nRight rook can no longer preform castling");
         }
         else if(currentPiece == 6 && selected[0] == 4 && selected[1] == 0 && !kingHasMoved){
             kingHasMoved = true;
-            System.out.print("\nKing moved, castling is no longer possible");
+            //System.out.print("\nKing moved, castling is no longer possible");
         }
     }
 

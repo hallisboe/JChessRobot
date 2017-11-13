@@ -144,7 +144,7 @@ public class BoardController {
     }
 
     private int[][][] getPieceMoves(byte piece){
-        System.out.print("\nPiece: " + piece);
+        //System.out.print("\nPiece: " + piece);
         int pieceVal = piece;
         int[][][] moves;
         switch (pieceVal){
@@ -226,7 +226,7 @@ public class BoardController {
         }
 
         curBoard[toX][toY] = piece;
-        System.out.print(toString());
+        //System.out.print(toString());
         if(isGameOver() != 0){
             gui.getController().isGameOver = true;
         }
@@ -275,7 +275,7 @@ public class BoardController {
                 output += board[x][y] + " ";
             }
         }
-        System.out.print(output);
+        //System.out.print(output);
     }
 
     public int isGameOver(){
