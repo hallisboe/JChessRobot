@@ -74,7 +74,7 @@ public class PieceValue {
         for(int i = 0; i < VALUES.length; i++) {
             for(int y = 0; y < VALUES[0].length; y++) {
                 for(int x = 0; x < VALUES[0][0].length; x++) {
-                    VALUES[i][y][x] += V[i] * 3;
+                    VALUES[i][y][x] += V[i] * 5;
                 }
             }
         }
