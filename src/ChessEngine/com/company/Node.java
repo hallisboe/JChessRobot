@@ -10,12 +10,12 @@ import static ChessEngine.com.company.lookup.Pieces.*;
 
 public class Node{
 
-    final byte[][] position;
-    final boolean[] data;
+    final byte[][] position; // Brettet
+    final boolean[] data; // Data tilhørende brettet
 
-    Node[] children;
+    Node[] children; // Posisjoner som kommer etter
 
-    boolean unchanged = false;
+    boolean unchanged = false; // Optimalisering som lagrer verdi av node til senere bruk
     int last_value;
 
     Node(byte[][] position, boolean[] data) {
@@ -23,10 +23,18 @@ public class Node{
         this.data = data;
     }
 
+    /*
+    Funksjon:
+    Returnerer matematisk verdi av posisjonen på brettet.
+     */
     int value() {
         return Value.value(position);
     }
 
+    /*
+    Funksjon:
+    Fyller ut children listen ved å finne alle mulige trekk.
+     */
     void expand(int loop) {
         unchanged = false;
         if(Math.abs(Value.value(position)) < 9590 * 5) {
@@ -86,9 +94,23 @@ public class Node{
             }
             children = c.toArray(new Node[c.size()]);
         }
-
-
     }
+
+    ArrayList<Node> getAllChildren() {
+        ArrayList<Node> c = new ArrayList();
+        if(children != null) {
+            c.addAll(Arrays.asList(children));
+            for (Node child : children) {
+                c.addAll(child.getAllChildren());
+            }
+        }
+        return c;
+    }
+
+    /*
+    Funksjon:
+    Returner node som String.
+     */
     public String toString() {
         return "Node (value = " + value() + ")";
     }

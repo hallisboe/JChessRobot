@@ -1,11 +1,18 @@
 package ChessEngine.com.company;
 
-public class MinMax {
-    public static int find(Node node) {
-        return find(node, Integer.MIN_VALUE, Integer.MAX_VALUE, node.data[0]);
+class MinMax {
+
+    /*
+    Starer minmax søk gitt node.
+     */
+    static int value(Node node) {
+        return value(node, Integer.MIN_VALUE, Integer.MAX_VALUE, node.data[0]);
     }
 
-    private static int find(Node node, int alpha, int beta, boolean player) {
+    /*
+    Søker gitt Node, alpha, beta og tur.
+     */
+    private static int value(Node node, int alpha, int beta, boolean player) {
         if (node.children == null) {
             return node.value();
         }
@@ -15,7 +22,7 @@ public class MinMax {
         if (player) {
             int v = Integer.MIN_VALUE;
             for(Node n : node.children) {
-                v = Math.max(v, find(n, alpha, beta, false));
+                v = Math.max(v, value(n, alpha, beta, false));
                 if (v > alpha) {
                     alpha = v;
                 }
@@ -29,7 +36,7 @@ public class MinMax {
         } else {
             int v = Integer.MAX_VALUE;
             for(Node n : node.children) {
-                v = Math.min(v, find(n, alpha, beta, true));
+                v = Math.min(v, value(n, alpha, beta, true));
                 if(v < beta) {
                     beta = v;
                 }
