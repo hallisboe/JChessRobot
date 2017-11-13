@@ -42,9 +42,11 @@ public class Main {
         return this.BOARD;
     }
 
-    public void setBoard(byte[][] b){
+    public void setBoard(byte[][] b,boolean qs, boolean ks){
         this.BOARD = b;
         this.DATA[0] = !DATA[0];
+        this.DATA[1] = qs;
+        this.DATA[2] = ks;
     }
 
     public static void iterate() throws InterruptedException {
