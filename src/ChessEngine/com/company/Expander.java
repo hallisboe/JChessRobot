@@ -20,6 +20,7 @@ public class Expander implements Runnable {
 
         if(element.children != null) {
             ArrayList<Node> c = element.getAllChildren();
+            Collections.shuffle(c);
             Collections.addAll(ChessAI.toExpand,  c.toArray(new Node[c.size()]));
         }
     }
