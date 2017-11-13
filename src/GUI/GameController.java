@@ -29,12 +29,8 @@ public class GameController extends JFrame{
         this.setVisible(true);
         this.addKeyListener(new KeyUsage());
         chessEngine = new Main();
-        setup();
-        update();
-
-        //chessEngineMove();
-
-
+        //setup();
+        //update();
     }
 
     public static void main(String[] args){
