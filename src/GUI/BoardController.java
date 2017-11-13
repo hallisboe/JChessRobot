@@ -320,7 +320,7 @@ public class BoardController {
             }
         }
 
-        ArrayList<int[]> posMoves = Possible.possible(curBoard,new boolean[]{false});
+        ArrayList<int[]> posMoves = Possible.possible(curBoard,new boolean[]{false, true, true, true, true});
         for(int i = 0; i < posMoves.size(); i++){
             int posMoveX = posMoves.get(i)[2];
             int posMoveY = posMoves.get(i)[3];

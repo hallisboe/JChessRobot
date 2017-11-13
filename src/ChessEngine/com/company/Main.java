@@ -54,7 +54,7 @@ public class Main {
         toExpand.add(parent);
         long time = System.currentTimeMillis();
         int i = 0;
-        while (i < 50000) {
+        while (i < 15000) {
             while (toExpand.size() == 0) Thread.sleep(10);
             ES.execute(new Expander(toExpand.poll()));
             i++;
