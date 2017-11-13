@@ -13,7 +13,7 @@ public class Expander implements Runnable {
     @Override
     public void run() {
         element.expand(1);
-        if(element.children != null) Collections.addAll(Main.toExpand, element.children);
+        if(element.children != null) Collections.addAll(ChessAI.toExpand, element.children);
     }
 
 }

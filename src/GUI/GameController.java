@@ -8,14 +8,14 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import ChessEngine.com.company.Main;
+import ChessEngine.com.company.ChessAI;
 
 public class GameController extends JFrame{
 
     private DataInputStream in;
     private DataOutputStream out;
     private GUI gui;
-    private Main chessEngine;
+    private ChessAI chessEngine;
     public boolean isGameOver = false;
 
     public GameController(){
@@ -27,7 +27,7 @@ public class GameController extends JFrame{
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.addKeyListener(new KeyUsage());
-        chessEngine = new Main();
+        chessEngine = new ChessAI();
         //setup();
         //update();
     }
