@@ -21,11 +21,15 @@ public class GUI extends JPanel{
 
     private int[] curPos = {0,7};
     private int[] selected;
-    public int[] kingPos;
+    public int[] kingPos = {0,4};
     private boolean isHolding = false;
     private byte currentPiece = 0;
     private boolean canPlay = true;
     public boolean isInCheck = false;
+
+    public boolean kingHasMoved = false;
+    public boolean leftRookHasMoved = false;
+    public boolean rightRookHasMoved = false;
 
     private int winner = 0;
     private int moveCount = 0;
@@ -207,7 +211,6 @@ public class GUI extends JPanel{
         repaint();
     }
 
-
     public void pickUp(){
         currentPiece = bc.getPieceAt(curPos[0],7-curPos[1]);
         System.out.print("\nCurrentPiece: " + currentPiece);
@@ -228,6 +231,7 @@ public class GUI extends JPanel{
             repaint();
             moveCount++;
             winner = 1;
+            castlingControl();
            if(!controller.isGameOver){
                 controller.chessEngineMove();
                 bc.checkForCheck();
@@ -244,25 +248,31 @@ public class GUI extends JPanel{
         repaint();
     }
 
+    private void castlingControl(){
+        System.out.print("\nSelected: " + selected[0] + "," + selected[1] + ", CurrentPiece: " + currentPiece);
+        if(currentPiece == 4 && selected[0] == 0 && selected[1] == 0 && !leftRookHasMoved){
+            leftRookHasMoved = true;
+            System.out.print("\nLeft rook can no longer preform castling");
+        }
+        else if(currentPiece == 4 && selected[0] == 7 && selected[1] == 0 && !rightRookHasMoved){
+            rightRookHasMoved = true;
+            System.out.print("\nRight rook can no longer preform castling");
+        }
+        else if(currentPiece == 6 && selected[0] == 4 && selected[1] == 0 && !kingHasMoved){
+            kingHasMoved = true;
+            System.out.print("\nKing moved, castling is no longer possible");
+        }
+    }
+
     private void drawPossibleMoves(){
         int[][] possibleMoves = bc.getPB();
         for(int i = 0; i < possibleMoves.length; i++){
-            //System.out.print("\nPossible move: " + possibleMoves[i][0] + "," + possibleMoves[i][1]);
             drawPosition(possibleMoves[i][0],7-possibleMoves[i][1],1);
         }
     }
 
     public void togglePlay(){
         canPlay = !canPlay;
-    }
-
-    private void sleep(long millis){
-        try{
-            Thread.sleep(millis);
-        }
-        catch(InterruptedException e){
-            e.printStackTrace();
-        }
     }
 
     private void drawGameOver(){
