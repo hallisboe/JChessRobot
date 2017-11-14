@@ -65,18 +65,6 @@ public class ChessAI {
         System.out.println(temp);
         parent.children = temp.toArray(new Node[temp.size()]);
         Arrays.sort(parent.children, (a, b) -> DATA[0] ? value(b) - value(a) : -(value(b) - value(a)));
-        /*String output = "";
-        for (int k = 0; k < 3; k++) {
-            Node node = parent.children[k];
-            System.out.println("Value: " + value(node));
-            System.out.println("------------------------------------------------------------");
-            for (byte[] col : node.position) {
-                for (byte s : col) System.out.print(s + " ");
-                System.out.println();
-            }
-            System.out.println("------------------------------------------------------------");
-        }
-        System.out.println(output);*/
         BOARD = parent.children[0].position;
         DATA = parent.children[0].data;
     }
