@@ -4,6 +4,27 @@ public class PieceValue {
 
     private final int[] V = {100, 280, 320, 479, 929, 9600};
     private int[][][] VALUES = new int[][][] { // Taken from sunfish
+            /*
+            Copyright (C) 2014 Thomas Ahle
+
+            This program is free software: you can redistribute it and/or modify
+            it under the terms of the GNU General Public License as published by
+            the Free Software Foundation, either version 3 of the License, or
+            (at your option) any later version.
+
+            This program is distributed in the hope that it will be useful,
+            but WITHOUT ANY WARRANTY; without even the implied warranty of
+            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+            GNU General Public License for more details.
+
+            You should have received a copy of the GNU General Public License
+            along with this program.  If not, see <http://www.gnu.org/licenses/>.
+            
+            This is taken from sunfish, an open source chess engine. No code is taken, just values used to estimate value of position.
+            All credits go to:
+            Thomas Ahle
+            https://github.com/thomasahle/sunfish
+            */
             {
                     {0, 0, 0, 0, 0, 0, 0, 0}, // PAWN
                     {78, 83, 86, 73, 102, 82, 85, 90},
@@ -64,6 +85,7 @@ public class PieceValue {
                     {-4, 3, -14, -50, -57, -18, 13, 4},
                     {17, 30, -3, -14, 6, -1, 40, 18}
             }
+            // End of code taken from sunfish
     };
 
     public int[][][] getValues() {
