@@ -97,12 +97,13 @@ public class Node{
     }
 
     ArrayList<Node> getAllChildren() {
-        ArrayList<Node> c = new ArrayList();
+        ArrayList<Node> c = new ArrayList<>();
         if(children != null) {
-            c.addAll(Arrays.asList(children));
             for (Node child : children) {
                 c.addAll(child.getAllChildren());
             }
+        } else {
+            c.add(this);
         }
         return c;
     }
