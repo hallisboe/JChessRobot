@@ -17,7 +17,6 @@ public class Expander implements Runnable {
     @Override
     public void run() {
         element.expand(1);
-
         if(element.children != null) {
             ArrayList<Node> c = element.getAllChildren();
             Collections.shuffle(c);
