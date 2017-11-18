@@ -41,6 +41,7 @@ public class GameController extends JFrame{
         new GameController();
     }
 
+    //Sets up Bluetooth connection with the EV3
     private void setup(){
         try{
             Socket s = new Socket("10.0.1.1",1111);
@@ -52,6 +53,7 @@ public class GameController extends JFrame{
         }
     }
 
+    //Checks for incoming bluetooth signals from the EV3
     private void update(){
         while(true){
             try{
@@ -84,6 +86,7 @@ public class GameController extends JFrame{
         }
     }
 
+    //Asks the chessEngine to iterate a move
     public void chessEngineMove(){
         System.out.print("\nSending board to engine");
 

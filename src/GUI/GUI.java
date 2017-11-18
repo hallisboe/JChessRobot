@@ -58,6 +58,7 @@ public class GUI extends JPanel{
 
     public GameController getController(){return this.controller;}
 
+    //Paints the GUI
     public void paintComponent(Graphics g) {
         g.clearRect(0,0,8*BOX_SIZE,8*BOX_SIZE);
         super.paintComponents(g);
@@ -97,6 +98,7 @@ public class GUI extends JPanel{
 
     }
 
+    //Draws the chessBoard
     private void drawGrid(){
         for(int x = 0; x < GRID_SIZE; x++){
             for(int y = 0; y < GRID_SIZE; y++){
@@ -107,11 +109,13 @@ public class GUI extends JPanel{
         }
     }
 
+    //Draw a specific chessPiece on a specific position
     private void drawPiece(int x, int y, int image){
         image = (image < 0)? 0 : (image >= 12)? 11 : image;
         g.drawImage(sprites[image],x*BOX_SIZE,y*BOX_SIZE + OFFSET, BOX_SIZE, BOX_SIZE,this);
     }
 
+    //Initialize chessPiece images
     private void initializeSprites(){
         try{
             BufferedImage image = ImageIO.read(new File("data/ChessPieces.png"));
@@ -131,6 +135,7 @@ public class GUI extends JPanel{
         }
     }
 
+    //Draws the board, the chess pieces
     private void drawBoard(byte[][] board){
         for(int x = 0; x < board.length; x++){
             for(int y = 0; y < board[x].length; y++){
@@ -142,6 +147,7 @@ public class GUI extends JPanel{
         }
     }
 
+    //Converts the piece values to the sprite value in the sprite array
     private byte getGridPieceValue(byte index){
         switch (index){
             case Pieces.WHITE_PAWN:
@@ -187,6 +193,7 @@ public class GUI extends JPanel{
         return index;
     }
 
+    //Draws the borders for a chosen board-position
     private void drawPosition(int x, int y,int c){
         int rectWidth = BOX_SIZE/3;
         int rectHeight = BOX_SIZE/10;
@@ -203,6 +210,7 @@ public class GUI extends JPanel{
         g.fillRect(x*BOX_SIZE + BOX_SIZE -rectHeight,y*BOX_SIZE + BOX_SIZE - 2*rectHeight + OFFSET,rectHeight,rectHeight);
     }
 
+    //Moves the current position in a chosen direction
     public void moveCurPos(int x,int y){
         if(!canPlay){return;}
         int newX = curPos[0] + x;
@@ -213,6 +221,7 @@ public class GUI extends JPanel{
         repaint();
     }
 
+    //Picks up the piece at the current location
     public void pickUp(){
         currentPiece = bc.getPieceAt(curPos[0],7-curPos[1]);
         System.out.print("\nCurrentPiece: " + currentPiece);
@@ -224,6 +233,7 @@ public class GUI extends JPanel{
         repaint();
     }
 
+    //Tries to move the picked up piece to the current location
     public void drop(){
         isHolding = false;
         boolean hasMoved = bc.tryToMovePiece(selected[0],selected[1],curPos[0],7-curPos[1]);
@@ -250,6 +260,7 @@ public class GUI extends JPanel{
         repaint();
     }
 
+    //Controls the possibility for castling
     private void castlingControl(){
         //System.out.print("\nSelected: " + selected[0] + "," + selected[1] + ", CurrentPiece: " + currentPiece);
         if(currentPiece == 4 && selected[0] == 0 && selected[1] == 0 && !leftRookHasMoved){
@@ -266,6 +277,7 @@ public class GUI extends JPanel{
         }
     }
 
+    //Visualizes the possible moves the player can do with the selected piece
     private void drawPossibleMoves(){
         int[][] possibleMoves = bc.getPB();
         for(int i = 0; i < possibleMoves.length; i++){
@@ -273,10 +285,12 @@ public class GUI extends JPanel{
         }
     }
 
+    //Toggles the possibility for the player can play
     public void togglePlay(){
         canPlay = !canPlay;
     }
 
+    //Visualizes if the game is over
     private void drawGameOver(){
         String victor = (winner == 1)? "White" : "Black";
         Font font = new Font("Dialog",Font.BOLD,30);
@@ -285,6 +299,7 @@ public class GUI extends JPanel{
         g.drawString(victor + " wins!", BOX_SIZE*8 + 20,40);
     }
 
+    //Visualizes the move count
     private void drawMoveCount(){
         String moves = "Move Count";
         Font font = new Font("Dialog",Font.BOLD,25);

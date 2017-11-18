@@ -4,6 +4,7 @@ import java.io.*;
 
 public class SaveAndLoad {
 
+    //Loads a string from a text file
     public static String loadFromTextFile(String filePath){
         try{
             FileReader fr = new FileReader(new File(filePath));
@@ -23,6 +24,7 @@ public class SaveAndLoad {
         }
     }
 
+    //Returns a byte[][] (Chess board) read from a text file
     public static byte[][] loadBoard (String filePath){
         byte[][] board = new byte[8][8];
         String input = loadFromTextFile(filePath);
