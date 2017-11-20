@@ -275,7 +275,7 @@ public class BoardController {
                 output += board[x][y] + " ";
             }
         }
-        //System.out.print(output);
+        //.out.print(output);
     }
 
     public int isGameOver(){

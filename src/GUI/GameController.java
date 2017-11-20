@@ -91,7 +91,7 @@ public class GameController extends JFrame{
         chessEngine.setBoard(gui.bc.getBoard(),!gui.leftRookHasMoved,!gui.rightRookHasMoved);
         try{
             chessEngine.iterate();
-            //System.out.print("\nEngine iterated");
+            System.out.print("\nEngine iterated");
         }
         catch(InterruptedException e){
             e.printStackTrace();

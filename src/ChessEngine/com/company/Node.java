@@ -37,7 +37,7 @@ public class Node{
      */
     void expand(int loop) {
         unchanged = false;
-        if(Math.abs(Value.value(position)) < 9590 * 5) {
+        if(Math.abs(Value.value(position)) < 5000 * 5) {
             ArrayList<Node> c = new ArrayList();
             for (int[] move : Possible.possible(position, data)) {
                 byte[][] newPosition = new byte[8][8];

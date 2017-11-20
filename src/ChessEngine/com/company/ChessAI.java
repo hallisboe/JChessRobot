@@ -35,7 +35,7 @@ public class ChessAI {
 
     public static void iterate() throws InterruptedException {
         parent = new Node(BOARD, DATA);
-        ES = Executors.newFixedThreadPool(8);
+        ES = Executors.newFixedThreadPool(16);
         toExpand = new LinkedBlockingQueue();
         toExpand.add(parent);
         long time = System.currentTimeMillis();
