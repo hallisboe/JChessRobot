@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import static ChessEngine.com.company.MinMax.*;
 
-public class ChessAI {
+public class AI {
 
     static ExecutorService ES;
 
@@ -18,7 +18,7 @@ public class ChessAI {
 
     static int n;
 
-    public ChessAI(int n) {
+    public AI(int n) {
         this.n = n;
     }
 

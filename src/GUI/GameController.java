@@ -8,7 +8,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import ChessEngine.com.company.ChessAI;
+import ChessEngine.com.company.AI;
 
 import static javax.swing.JOptionPane.showInputDialog;
 
@@ -17,7 +17,7 @@ public class GameController extends JFrame{
     private DataInputStream in;
     private DataOutputStream out;
     private GUI gui;
-    private ChessAI chessEngine;
+    private AI chessEngine;
     public boolean isGameOver = false;
 
     public GameController(){
@@ -30,7 +30,7 @@ public class GameController extends JFrame{
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.addKeyListener(new KeyUsage());
-        chessEngine = new ChessAI(d);
+        chessEngine = new AI(d);
         if("ja".equals(showInputDialog("bruk bluethooth? (ja/nei)"))) {
             setup();
             update();
