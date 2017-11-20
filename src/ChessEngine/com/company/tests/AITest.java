@@ -11,51 +11,38 @@ import java.util.ArrayList;
 
 public class AITest {
 
-    @Test
-    public void moveTestShallow() {
+    private double play(int a, int g, int m, String msg) {
         byte[][] board = SaveAndLoad.loadBoard("data/board.txt");
-        AI ai = new AI(1000);
+        AI ai = new AI(a);
         int b = Value.value(board);
         ArrayList<Integer> scores = new ArrayList<Integer>();
-        for(int n = 0; n < 30; n++) {
+        for(int n = 0; n < g; n++) {
             ai.setBoard(board, true, true);
             try {
-                for (int i = 0; i < 40; i++) ai.iterate();
-                if(Value.value(ai.getBoard()) >= 5000 * 5) break;
+                for (int i = 0; i < m; i++) {
+                    ai.iterate();
+                    if(Math.abs(Value.value(ai.getBoard())) >= 929 * 5 * 2) break;
+                }
+                System.out.println("[DONE] " + msg + " " + (n + 1)  + " of " + g);
             } catch (InterruptedException e) {
                 System.out.println(e);
             }
-            scores.add(Value.value(ai.getBoard()));
+            int v = Value.value(ai.getBoard());
+            scores.add(Math.abs(v) >= 929 * 5 * 2 ? 0 : v);
         }
         double total = 0;
         for(int s : scores) total += s;
-        total /= scores.size();
-
-        Assert.assertEquals(0, total, 2000);
+        System.out.println("[BALANCE] " + total / scores.size());
+        return total / scores.size();
+    }
+    @Test
+    public void moveTestShallow() {
+        Assert.assertEquals(0, play(1000, 20, 40, "Shallow game"), 1000);
     }
 
     @Test
     public void moveTestDeep() {
-        byte[][] board = SaveAndLoad.loadBoard("data/board.txt");
-        AI ai = new AI(5000);
-        int b = Value.value(board);
-        ArrayList<Integer> scores = new ArrayList<Integer>();
-        for(int n = 0; n < 5; n++) {
-            ai.setBoard(board, true, true);
-            try {
-                for (int i = 0; i < 50; i++) {
-                    ai.iterate();
-                    if(Value.value(ai.getBoard()) >= 5000 * 5) break;
-                }
-            } catch (InterruptedException e) {
-                System.out.println(e);
-            }
-            scores.add(Value.value(ai.getBoard()));
-        }
-        double total = 0;
-        for(int s : scores) total += s;
-        total /= scores.size();
-
-        Assert.assertEquals(0, total, 1000);
+        Assert.assertEquals(0, play(5000, 5, 20, "Deep game"), 2000);
     }
 }
+

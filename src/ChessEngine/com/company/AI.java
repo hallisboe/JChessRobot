@@ -45,14 +45,13 @@ public class AI {
             ES.execute(new Expander(toExpand.poll()));
             i++;
         }
-        System.out.println(i + " operations started. Waiting for completion... ");
+        //System.out.println(i + " operations started. Waiting for completion... ");
         ES.shutdown();
-        System.out.print("/");
+        //System.out.print("/");
         while (!ES.awaitTermination(10, TimeUnit.MILLISECONDS)) {
-            System.out.print("\r");
-            System.out.print(chars[i++ % 3]);
+            //System.out.print("\r");
+            //System.out.print(chars[i++ % 3]);
         }
-        System.out.println();
         /*System.out.println();
         System.out.println("------------------------------------------------------------");
         System.out.println("RESULT:");
