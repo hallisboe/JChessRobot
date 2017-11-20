@@ -34,12 +34,12 @@ public class AITest {
     }
     @Test
     public void moveTestShallow() {
-        Assert.assertEquals(0, play(1000, 20, 40, "Shallow game"), 1000);
+        Assert.assertEquals(0, play(1000, 20, 40, "Shallow game"), 1250);
     }
 
     @Test
     public void moveTestDeep() {
-        Assert.assertEquals(0, play(5000, 5, 20, "Deep game"), 2000);
+        Assert.assertEquals(0, play(5000, 5, 20, "Deep game"), 2500);
     }
 }
 
