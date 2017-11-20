@@ -18,25 +18,30 @@ public class BoardController {
         this.gui = gui;
     }
 
+    //Gets the board
     public byte[][] getBoard(){
         return this.curBoard;
     }
-
+    //Sets the board
     public void setBoard(byte[][] board){
         move = findMove(curBoard,board);
         this.curBoard = board;
     }
 
+    //Returns a calculated move between two different boards
     public int[][] getMove(){
         return this.move;
     }
 
+    //Gets the piece at a location at the board
     public byte getPieceAt(int x, int y){
         return curBoard[x][y];
     }
 
+    //Returns the previous calculated moves for a piece
     public int[][] getPB(){return possibleMoves;}
 
+    //Resets the board
     private void resetBoard(){
         curBoard = SaveAndLoad.loadBoard("data/board.txt");
         if(curBoard == null){
@@ -55,10 +60,12 @@ public class BoardController {
         return output;
     }
 
+    //Stores and starts the calculation of the possible moves for a specific piece at a specific location
     public void calculatePossibleMoves(byte piece,int curX,int curY){
         possibleMoves = getAvailableMoves(piece,curX,curY);
     }
 
+    //Calculates the possible moves for a specific piece at a specific location
     private int[][] getAvailableMoves(byte piece,int curX,int curY){
         ArrayList<int[]> position = new ArrayList<> ();
         int[][][] moves = getPieceMoves(piece);
@@ -80,10 +87,10 @@ public class BoardController {
                     }
                     if(piece == 1){ //Pawn exceptions
                         int diagonalY = curY + 1;
-                        if(checkPawnDiagonals(curX - 1, diagonalY,true)){
+                        if(checkPawnDiagonals(curX - 1, diagonalY)){
                             position.add(new int[]{curX - 1,diagonalY});
                         }
-                        if(checkPawnDiagonals(curX + 1, diagonalY,true)){
+                        if(checkPawnDiagonals(curX + 1, diagonalY)){
                             position.add(new int[]{curX + 1,diagonalY});
                         }
                         if(pieceAt >= 7){
@@ -143,6 +150,7 @@ public class BoardController {
         return result;
     }
 
+    //Returns the basic moves a piece can do
     private int[][][] getPieceMoves(byte piece){
         //System.out.print("\nPiece: " + piece);
         int pieceVal = piece;
@@ -182,6 +190,7 @@ public class BoardController {
         return moves;
     }
 
+    //Returns an extended version of the basic moves a piece can make
     private int[][][] extendPossibleMoves(int[][] moves){
         ArrayList<int[][]> positions = new ArrayList<>();
         for(int k = 0; k < moves.length; k++){
@@ -197,6 +206,7 @@ public class BoardController {
         return temp;
     }
 
+    //Moves a piece on the board, also checks for exceptions
     private void movePiece(int fromX, int fromY, int toX, int toY){
         byte piece = getPieceAt(fromX,fromY);
         curBoard[fromX][fromY] = 0;
@@ -232,6 +242,7 @@ public class BoardController {
         }
     }
 
+    //Tries to move a piece, checks if the move is a valid move
     public boolean tryToMovePiece(int fromX, int fromY, int toX, int toY){
         if(fromX == toX && fromY == toY){return false;}
         if(isMovePossible(toX,toY)){
@@ -241,6 +252,7 @@ public class BoardController {
         return false;
     }
 
+    //Checks if a position on the board can be found in the list of possible moves
     public boolean isMovePossible(int posX, int posY){
         for(int i = 0; i < possibleMoves.length; i++) {
             int x = possibleMoves[i][0];
@@ -253,14 +265,11 @@ public class BoardController {
         return false;
     }
 
-    private boolean checkPawnDiagonals(int diagonalX, int diagonalY,boolean isWhite){
+    //Checks if a position diagonally from a pawn is an opponent piece
+    private boolean checkPawnDiagonals(int diagonalX, int diagonalY){
         if(diagonalY >= 0 && diagonalY <= 7 && diagonalX >= 0 && diagonalX <= 7){
             int enemyPiece = getPieceAt(diagonalX,diagonalY);
-            if(isWhite && enemyPiece >= 7){
-                return true;
-            }
-            else if(!isWhite && enemyPiece <= 6 && enemyPiece > 0)
-            {
+            if(enemyPiece >= 7){
                 return true;
             }
         }
@@ -278,6 +287,7 @@ public class BoardController {
         //.out.print(output);
     }
 
+    //Checks if the game is over, basically if one of the kings are missing
     public int isGameOver(){
         boolean whiteKing = false;
         boolean blackKing = false;
@@ -290,6 +300,7 @@ public class BoardController {
         return (whiteKing && blackKing)? 0 : !blackKing? 1 : -1;
     }
 
+    //Returns the move difference between two boards
     private int[][] findMove(byte[][] b1,byte[][] b2){
         int[][] move = new int[2][2];
         int cell = 0;
@@ -305,6 +316,7 @@ public class BoardController {
         return move;
     }
 
+    //Checks if the white king is in check
     public void checkForCheck(){
         //Finds the king position
         if(getPieceAt(gui.kingPos[0],gui.kingPos[1]) != 6){
