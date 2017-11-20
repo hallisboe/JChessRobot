@@ -53,16 +53,17 @@ public class AI {
             System.out.print(chars[i++ % 3]);
         }
         System.out.println();
+        /*System.out.println();
         System.out.println("------------------------------------------------------------");
         System.out.println("RESULT:");
         System.out.println("------------------------------------------------------------");
         System.out.println("Total time: " + (System.currentTimeMillis() - time));
         System.out.println("End-nodes: " + toExpand.size());
-        System.out.println("------------------------------------------------------------");
+        System.out.println("------------------------------------------------------------");*/
         ArrayList<Node> temp = new ArrayList<Node>();
         Collections.addAll(temp, parent.children);
         Collections.shuffle(temp);
-        System.out.println(temp);
+        //System.out.println(temp);
         parent.children = temp.toArray(new Node[temp.size()]);
         Arrays.sort(parent.children, (a, b) -> DATA[0] ? value(b) - value(a) : -(value(b) - value(a)));
         BOARD = parent.children[0].position;
