@@ -1,11 +1,9 @@
 package ChessEngine.com.company.tests;
 
 import ChessEngine.com.company.AI;
-import ChessEngine.com.company.board.Possible;
 import ChessEngine.com.company.board.Value;
 import GUI.SaveAndLoad;
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
 import java.util.ArrayList;
 
@@ -14,7 +12,6 @@ public class AITest {
     private double play(int a, int g, int m, String msg) {
         byte[][] board = SaveAndLoad.loadBoard("data/board.txt");
         AI ai = new AI(a);
-        int b = Value.value(board);
         ArrayList<Integer> scores = new ArrayList<Integer>();
         for(int n = 0; n < g; n++) {
             ai.setBoard(board, true, true);

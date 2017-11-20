@@ -14,5 +14,6 @@ public class PossibleTest {
         Assert.assertTrue(
                 Possible.possible(board, new boolean[] {true, true, true, true, true}).size() == 20
         );
+        System.out.println("[DONE] First move -> number of moves");
     }
 }

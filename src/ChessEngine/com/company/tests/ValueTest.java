@@ -18,5 +18,6 @@ public class ValueTest {
         Assert.assertTrue(Value.value(board) > 0);
         board[3][3] = BLACK_PAWN;
         Assert.assertTrue(Value.value(board) < 0);
+        System.out.println("[DONE] First move -> balance");
     }
 }
