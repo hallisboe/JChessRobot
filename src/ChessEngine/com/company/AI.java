@@ -12,7 +12,7 @@ public class AI {
     static byte[][] BOARD;
     static boolean[] DATA = {true, true, true, true, true};
 
-    static char[] chars = new char[] { '/', '-', '\\', '/', '-', '\\'};
+    //static char[] chars = new char[] { '/', '-', '\\', '/', '-', '\\'};
 
     static Node parent;
 
@@ -38,7 +38,7 @@ public class AI {
         ES = Executors.newFixedThreadPool(16);
         toExpand = new LinkedBlockingQueue();
         toExpand.add(parent);
-        long time = System.currentTimeMillis();
+        //long time = System.currentTimeMillis();
         int i = 0;
         while (i < n) {
             while (toExpand.size() == 0) Thread.sleep(10);
